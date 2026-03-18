@@ -118,7 +118,7 @@ nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 2rem;dis
 .booking-card p{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6}
 .bf{margin-bottom:.9rem}
 .bf label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
-.bf input,.bf select,.bf textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border .15s}
+.bf input,.bf select,.bf textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;font-family:'Nunito Sans',sans-serif;font-size:16px;color:var(--text);outline:none;transition:border .15s}
 .bf input:focus,.bf select:focus,.bf textarea:focus{border-color:var(--teal)}
 .bf textarea{resize:vertical;min-height:80px}
 .bf select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
@@ -146,13 +146,39 @@ footer a{color:rgba(255,255,255,.5)}footer a:hover{color:#fff}
   .hero-right{display:none}
   .svc-big-grid,.map-wrap,.cp-wrap{grid-template-columns:1fr}
   .nav-links{display:none}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .page-hero{padding:5rem 1.25rem 2.5rem}
+  .services-full,.team-section,.map-section,.contact-page{padding:2.5rem 1.25rem}
+}
+@media(max-width:480px){
+  .util-bar{display:none}
+  nav{padding:.75rem 1rem}
+  .nav-cta{padding:7px 14px;font-size:13px}
+  .hero-left{padding:2rem 1rem 2rem}
+  .hero-left h1{font-size:28px}
+  .hero-btns{flex-direction:column}
+  .btn-main,.btn-sec{text-align:center;width:100%}
+  .trust-ribbon{gap:1rem;padding:.75rem 1rem;justify-content:flex-start}
+  .trust-item{font-size:12px}
+  .svc-grid{grid-template-columns:1fr}
+  .svc-big-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .blog-grid{grid-template-columns:1fr}
+  .cp-wrap{grid-template-columns:1fr}
+  .bf input,.bf select,.bf textarea{font-size:16px}
+  .page-hero h1{font-size:26px}
+  .done-actions{flex-direction:column}
+  .rating-badge{display:none}
+  .map-wrap{grid-template-columns:1fr}
+  .map-embed{aspect-ratio:16/9}
 }
 </style>
 </head>
 <body>
 
 <div class="util-bar">
-  <span>📞 +421 2 555 123 45 &nbsp;|&nbsp; ✉️ info@medvita.sk</span>
+  <span>📞 +421 2 555 123 45 &nbsp;|&nbsp; ✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ee87808881ae838b8a98879a8fc09d85">[email&#160;protected]</a></span>
   <div class="lang-switch">
     <button class="lang-btn active" onclick="setLang('en')">EN</button>
     <button class="lang-btn" onclick="setLang('sk')">SK</button>
@@ -281,7 +307,7 @@ footer a{color:rgba(255,255,255,.5)}footer a:hover{color:#fff}
         <div class="map-items" style="margin-bottom:2rem">
           <div class="map-item"><div class="map-item-ico">📍</div><div><div class="map-item-lbl" data-en="Address" data-sk="Adresa" data-de="Adresse">Address</div><div class="map-item-val">Zámocká 14, 811 01 Bratislava</div></div></div>
           <div class="map-item" style="margin-top:1rem"><div class="map-item-ico">📞</div><div><div class="map-item-lbl" data-en="Phone" data-sk="Telefón" data-de="Telefon">Phone</div><div class="map-item-val">+421 2 555 123 45</div></div></div>
-          <div class="map-item" style="margin-top:1rem"><div class="map-item-ico">✉️</div><div><div class="map-item-lbl">Email</div><div class="map-item-val">info@medvita.sk</div></div></div>
+          <div class="map-item" style="margin-top:1rem"><div class="map-item-ico">✉️</div><div><div class="map-item-lbl">Email</div><div class="map-item-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4821262e2708252d2c3e213c29663b23">[email&#160;protected]</a></div></div></div>
         </div>
         <div class="map-embed" style="aspect-ratio:1">🗺️</div>
       </div>
@@ -327,7 +353,7 @@ footer a{color:rgba(255,255,255,.5)}footer a:hover{color:#fff}
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var lang = 'en';
 function setLang(l) {
   lang = l;
@@ -339,12 +365,4 @@ function setLang(l) {
   });
 }
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
-  document.getElementById('nl-' + id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-</script>
-</body>
-</html>
+  document.querySelectorAll('.page').forEach(function(p)

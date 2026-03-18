@@ -69,7 +69,7 @@ h2{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.02em;margin-b
 .cform{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.75rem}
 .cform .field{margin-bottom:.9rem}
 .cform label{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:5px}
-.cform input,.cform textarea{width:100%;background:var(--mid);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px;font-family:'Outfit',sans-serif;font-size:14px;color:#fff;outline:none;transition:border .15s}
+.cform input,.cform textarea{width:100%;background:var(--mid);border:1px solid var(--border);border-radius:var(--r);padding:10px 13px;font-family:'Outfit',sans-serif;font-size:16px;color:#fff;outline:none;transition:border .15s}
 .cform input:focus,.cform textarea:focus{border-color:var(--accent)}
 .cform textarea{resize:vertical;min-height:90px}
 .cform button{width:100%;background:var(--accent);color:#fff;border:none;padding:12px;border-radius:var(--r);font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;margin-top:.25rem;transition:opacity .15s}
@@ -90,6 +90,27 @@ footer a{color:var(--muted)}footer a:hover{color:#fff}
   .nav-links{display:none}
   .contact-grid{grid-template-columns:1fr}
   .stats{gap:1.5rem}
+  section{padding:3.5rem 1.25rem}
+  .hero{padding:5.5rem 1.25rem 3rem}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .proj-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:.75rem;padding:1.25rem}
+  .cookie{left:.75rem;right:.75rem}
+}
+@media(max-width:480px){
+  nav{padding:.75rem 1rem}
+  .nav-cta{padding:7px 14px;font-size:13px}
+  .hero{padding:5rem 1rem 2.5rem}
+  h1{letter-spacing:-.02em}
+  .hero p{font-size:15px}
+  .btns{flex-direction:column}
+  .btn-a,.btn-b{text-align:center;width:100%}
+  .stats{flex-direction:column;gap:1rem}
+  .svc-grid{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr}
+  .cform input,.cform textarea{font-size:16px}
+  .contact-grid{grid-template-columns:1fr;gap:2rem}
+  .c-items{gap:1rem}
 }
 </style>
 </head>
@@ -159,7 +180,7 @@ footer a{color:var(--muted)}footer a:hover{color:#fff}
       <div class="c-items">
         <div class="c-item"><div class="c-ico">📍</div><div><div class="c-lbl">Adresa</div><div class="c-val">Hlavná 12, 811 01 Bratislava</div></div></div>
         <div class="c-item"><div class="c-ico">📞</div><div><div class="c-lbl">Telefón</div><div class="c-val">+421 902 123 456</div></div></div>
-        <div class="c-item"><div class="c-ico">✉️</div><div><div class="c-lbl">Email</div><div class="c-val">info@kovarsyn.sk</div></div></div>
+        <div class="c-item"><div class="c-ico">✉️</div><div><div class="c-lbl">Email</div><div class="c-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dab3b4bcb59ab1b5acbba8a9a3b4f4a9b1">[email&#160;protected]</a></div></div></div>
         <div class="c-item"><div class="c-ico">🕐</div><div><div class="c-lbl">Pracovná doba</div><div class="c-val">Po–Pi: 7:00 – 17:00</div></div></div>
       </div>
       <div class="cform">
@@ -184,9 +205,4 @@ footer a{color:var(--muted)}footer a:hover{color:#fff}
   <span>Používame cookies na zlepšenie vášho zážitku.</span>
   <div class="ck-btns">
     <button class="ck-n" onclick="document.getElementById('cookie').style.display='none'">Odmietnuť</button>
-    <button class="ck-y" onclick="document.getElementById('cookie').style.display='none'">Prijať</button>
-  </div>
-</div>
-
-</body>
-</html>
+    <button class="ck
