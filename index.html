@@ -114,23 +114,66 @@ textarea{resize:vertical;min-height:80px}
 /* TOAST */
 .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#111;color:#fff;font-size:13px;padding:10px 22px;border-radius:var(--pill);display:none;z-index:999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.2)}
 
-/* MOBILE */
+/* TABLET (≤768px) */
+@media(max-width:768px){
+  .pkg-grid{grid-template-columns:1fr 1fr}
+  .addons-grid{grid-template-columns:1fr 1fr}
+  .top-head h1{font-size:30px}
+}
+
+/* MOBILE (≤560px) */
 @media(max-width:560px){
-  body{padding:1.5rem 0 5rem}
+  body{padding:1rem 0 5rem;font-size:16px}
   .outer{max-width:100%}
-  .top-head{padding:0 1rem;margin-bottom:1.75rem}
-  .top-head h1{font-size:26px}
+
+  /* Header */
+  .top-head{padding:0 1rem;margin-bottom:1.5rem}
+  .top-head h1{font-size:24px}
+  .top-head p{font-size:14px}
+
+  /* Packages — single column, full width */
   .pkg-grid{grid-template-columns:1fr;gap:10px;padding:0 1rem}
+  .pkg{padding:1.1rem 1rem .9rem}
+  .pkg-price{font-size:24px}
+  .pop-badge{font-size:10px;padding:3px 10px}
+
+  /* Addons — single column */
   .addons-grid{grid-template-columns:1fr;padding:0 1rem}
   .section-label{padding:0 1rem}
-  .price-bar{margin:0 1rem 1.5rem;padding:.75rem 1rem}
+
+  /* Price bar */
+  .price-bar{margin:0 1rem 1.25rem;padding:.75rem 1rem;flex-direction:column;align-items:flex-start;gap:10px}
+  .price-bar .next-btn{width:100%;text-align:center}
+  .price-bar .total{font-size:22px}
+
+  /* Form card — edge to edge */
   .form-card{border-radius:0;border-left:none;border-right:none;box-shadow:none}
-  .form-head{padding:1.25rem 1rem 1rem}
-  .form-body{padding:1.25rem 1rem}
-  .form-foot{padding:.875rem 1rem 1rem}
+  .form-head{padding:1.1rem 1rem 1rem}
+  .form-head h2{font-size:16px}
+  .form-body{padding:1.1rem 1rem}
+  .form-foot{padding:.875rem 1rem 1rem;gap:8px}
+
+  /* Stack all 2-col grids */
   .row2{grid-template-columns:1fr}
-  .done-card{border-radius:0;border-left:none;border-right:none}
-  .done-actions .btn-primary,.done-actions .btn-ghost{max-width:100%}
+
+  /* Inputs — 16px prevents iOS zoom */
+  input[type=text],input[type=email],input[type=url],input[type=tel],textarea,select{font-size:16px;padding:12px 12px}
+
+  /* Pills — wrap naturally, bigger tap targets */
+  .pill{padding:9px 14px;font-size:13px;min-height:44px}
+
+  /* Buttons — full width on mobile */
+  .btn-primary{width:100%;justify-content:center}
+  .btn-ghost{min-width:72px}
+  .invis{visibility:hidden}
+
+  /* Done card */
+  .done-card{border-radius:0;border-left:none;border-right:none;padding:2rem 1rem}
+  .done-actions{flex-direction:column}
+  .done-actions .btn-primary,.done-actions .btn-ghost{max-width:100%;width:100%}
+
+  /* Toast — full width on small screens */
+  .toast{left:1rem;right:1rem;transform:none;text-align:center;white-space:normal}
 }
 </style>
 </head>
@@ -252,7 +295,7 @@ textarea{resize:vertical;min-height:80px}
     <div class="addon-icon">📧</div>
     <div class="addon-info">
       <div class="addon-name">Domain + Email Setup</div>
-      <div class="addon-desc">We register your domain and set up your professional email (info@yourcompany.com).</div>
+      <div class="addon-desc">We register your domain and set up your professional email (<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1871767e775861776d6a7b777568797661367b7775">[email&#160;protected]</a>).</div>
       <div class="addon-price">+€50</div>
     </div>
     <div class="addon-check" id="ac-domain"></div>
@@ -279,7 +322,7 @@ textarea{resize:vertical;min-height:80px}
     <div class="form-body" id="form-body"></div>
     <div class="form-foot">
       <button class="btn-ghost invis" id="fbtn-back">← Back</button>
-      <span class="step-info" id="fstep-info">1 of 3</span>
+      <span class="step-info" id="fstep-info">1 of 4</span>
       <button class="btn-primary" id="fbtn-next">Next →</button>
     </div>
   </div>
@@ -303,25 +346,30 @@ textarea{resize:vertical;min-height:80px}
 </div>
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
   var state = { pkg: null, pkgPrice: 0, addons: {}, addonTotal: 0, fstep: 0, answers: {} };
 
   var steps = [
     {
       title: 'About your business',
-      sub: 'Quick basics so we can personalise your website.',
-      html: '<div class="row2"><div class="field"><label>Company name <span class="req">*</span></label><input type="text" id="f-name" placeholder="e.g. Stahlmann GmbH"/></div><div class="field"><label>Industry <span class="req">*</span></label><input type="text" id="f-industry" placeholder="e.g. Construction, Clinic, IT"/></div></div><div class="field"><label>Country / market</label><div class="pill-group"><label><input type="checkbox" name="mkt" value="SK"><span class="pill">&#127480;&#127472; Slovakia</span></label><label><input type="checkbox" name="mkt" value="DE"><span class="pill">&#127465;&#127466; Germany</span></label><label><input type="checkbox" name="mkt" value="AT"><span class="pill">&#127462;&#127481; Austria</span></label><label><input type="checkbox" name="mkt" value="CZ"><span class="pill">&#127464;&#127487; Czechia</span></label><label><input type="checkbox" name="mkt" value="Other"><span class="pill">&#127758; Other</span></label></div></div><div class="field"><label>What do you do? <span class="req">*</span></label><textarea id="f-desc" placeholder="We provide X to Y clients..." style="min-height:70px"></textarea></div>'
+      sub: 'Basic info so we can personalise every part of your site.',
+      html: '<div class="row2"><div class="field"><label>Company name <span class="req">*</span></label><input type="text" id="f-name" placeholder="e.g. Brecker Industries s.r.o."/></div><div class="field"><label>Industry <span class="req">*</span></label><input type="text" id="f-industry" placeholder="e.g. Construction, Clinic, IT, Retail"/></div></div><div class="field"><label>What do you do? <span class="req">*</span></label><textarea id="f-desc" placeholder="We provide X to Y clients in Z market. One or two sentences." style="min-height:75px"></textarea></div><div class="field"><label>Company size</label><div class="pill-group"><label><input type="radio" name="size" value="1–5 people"><span class="pill">1–5</span></label><label><input type="radio" name="size" value="6–20 people"><span class="pill">6–20</span></label><label><input type="radio" name="size" value="21–100 people"><span class="pill">21–100</span></label><label><input type="radio" name="size" value="100+ people"><span class="pill">100+</span></label></div></div><div class="field"><label>Markets served</label><div class="pill-group"><label><input type="checkbox" name="mkt" value="Slovakia"><span class="pill">&#127480;&#127472; Slovakia</span></label><label><input type="checkbox" name="mkt" value="Germany"><span class="pill">&#127465;&#127466; Germany</span></label><label><input type="checkbox" name="mkt" value="Austria"><span class="pill">&#127462;&#127481; Austria</span></label><label><input type="checkbox" name="mkt" value="Czechia"><span class="pill">&#127464;&#127487; Czechia</span></label><label><input type="checkbox" name="mkt" value="Hungary"><span class="pill">&#127469;&#127482; Hungary</span></label><label><input type="checkbox" name="mkt" value="Poland"><span class="pill">&#127477;&#127473; Poland</span></label><label><input type="checkbox" name="mkt" value="Worldwide"><span class="pill">&#127758; Worldwide</span></label></div></div><div class="field"><label>List your services or products <span class="req">*</span></label><textarea id="f-services" placeholder="e.g.&#10;1. Steel fabrication — custom structural components&#10;2. Industrial assembly — on-site machinery installation&#10;3. Maintenance contracts — scheduled &amp; emergency" style="min-height:105px"></textarea></div>'
     },
     {
-      title: 'Your website goal',
-      sub: 'One goal keeps the design focused and effective.',
-      html: '<div class="field"><label>Primary goal <span class="req">*</span></label><div class="pill-group"><label><input type="radio" name="goal" value="Get new client inquiries"><span class="pill">&#128229; Get inquiries</span></label><label><input type="radio" name="goal" value="Build credibility / trust"><span class="pill">&#127942; Build trust</span></label><label><input type="radio" name="goal" value="Recruit employees"><span class="pill">&#128101; Recruit staff</span></label><label><input type="radio" name="goal" value="Sell products online"><span class="pill">&#128722; Sell online</span></label><label><input type="radio" name="goal" value="Share information"><span class="pill">&#128203; Share info</span></label></div></div><div class="field"><label>Target visitor</label><input type="text" id="f-audience" placeholder="e.g. German procurement managers, local patients"/></div><div class="field"><label>Design feel</label><div class="pill-group"><label><input type="checkbox" name="tone" value="Professional"><span class="pill">Professional</span></label><label><input type="checkbox" name="tone" value="Industrial"><span class="pill">Industrial</span></label><label><input type="checkbox" name="tone" value="Modern / minimal"><span class="pill">Modern</span></label><label><input type="checkbox" name="tone" value="Warm / friendly"><span class="pill">Warm</span></label><label><input type="checkbox" name="tone" value="Bold / strong"><span class="pill">Bold</span></label></div></div><div class="field"><label>Preferred colors <span style="font-size:12px;color:var(--muted)">(optional)</span></label><input type="text" id="f-colors" placeholder="e.g. dark background + orange, navy + white"/></div><div class="field"><label>Font vibe <span style="font-size:12px;color:var(--muted)">(optional)</span></label><div class="pill-group"><label><input type="radio" name="font" value="Clean &amp; modern (sans-serif)"><span class="pill">Clean &amp; modern</span></label><label><input type="radio" name="font" value="Elegant &amp; editorial (serif)"><span class="pill">Elegant &amp; editorial</span></label><label><input type="radio" name="font" value="Strong &amp; bold (display)"><span class="pill">Strong &amp; bold</span></label><label><input type="radio" name="font" value="Technical &amp; precise (mono)"><span class="pill">Technical &amp; precise</span></label></div></div><div class="field"><label>Reference website <span style="font-size:12px;color:var(--muted)">(optional)</span></label><input type="url" id="f-ref" placeholder="https://example.com — a site you like the look of"/></div>'
+      title: 'Goals & design',
+      sub: 'What the site needs to achieve and how it should look.',
+      html: '<div class="field"><label>Primary goal <span class="req">*</span></label><div class="pill-group"><label><input type="radio" name="goal" value="Get new client inquiries"><span class="pill">&#128229; Get inquiries</span></label><label><input type="radio" name="goal" value="Build credibility &amp; trust"><span class="pill">&#127942; Build trust</span></label><label><input type="radio" name="goal" value="Recruit employees"><span class="pill">&#128101; Recruit staff</span></label><label><input type="radio" name="goal" value="Sell products online"><span class="pill">&#128722; Sell online</span></label><label><input type="radio" name="goal" value="Share information &amp; news"><span class="pill">&#128203; Share info</span></label><label><input type="radio" name="goal" value="Book appointments"><span class="pill">&#128197; Book appointments</span></label></div></div><div class="field"><label>Who visits the site? <span class="req">*</span></label><div class="pill-group"><label><input type="checkbox" name="visitor" value="B2B clients / companies"><span class="pill">B2B clients</span></label><label><input type="checkbox" name="visitor" value="Individual consumers"><span class="pill">Consumers</span></label><label><input type="checkbox" name="visitor" value="Job seekers"><span class="pill">Job seekers</span></label><label><input type="checkbox" name="visitor" value="Partners &amp; suppliers"><span class="pill">Partners</span></label><label><input type="checkbox" name="visitor" value="Local customers"><span class="pill">Local customers</span></label><label><input type="checkbox" name="visitor" value="International clients"><span class="pill">International</span></label></div></div><div class="field"><label>Design feel (pick all that apply)</label><div class="pill-group"><label><input type="checkbox" name="tone" value="Professional &amp; corporate"><span class="pill">Professional</span></label><label><input type="checkbox" name="tone" value="Industrial &amp; technical"><span class="pill">Industrial</span></label><label><input type="checkbox" name="tone" value="Modern &amp; minimal"><span class="pill">Modern</span></label><label><input type="checkbox" name="tone" value="Warm &amp; friendly"><span class="pill">Warm</span></label><label><input type="checkbox" name="tone" value="Bold &amp; strong"><span class="pill">Bold</span></label><label><input type="checkbox" name="tone" value="Elegant &amp; premium"><span class="pill">Elegant</span></label><label><input type="checkbox" name="tone" value="Playful &amp; creative"><span class="pill">Playful</span></label><label><input type="checkbox" name="tone" value="Clean &amp; simple"><span class="pill">Clean</span></label></div></div><div class="field"><label>Colour scheme</label><div class="pill-group"><label><input type="radio" name="colorscheme" value="Dark background, light text"><span class="pill">&#127769; Dark</span></label><label><input type="radio" name="colorscheme" value="Light background, dark text"><span class="pill">&#9728;&#65039; Light</span></label><label><input type="radio" name="colorscheme" value="White &amp; clean"><span class="pill">&#11036; White &amp; clean</span></label><label><input type="radio" name="colorscheme" value="Colourful &amp; vibrant"><span class="pill">&#127752; Colourful</span></label></div></div><div class="field"><label>Preferred colors <span style="font-size:12px;color:var(--muted)">(optional)</span></label><input type="text" id="f-colors" placeholder="e.g. navy blue + gold, dark grey + orange accent"/></div><div class="field"><label>Font style</label><div class="pill-group"><label><input type="radio" name="font" value="Clean &amp; modern (sans-serif)"><span class="pill">Clean &amp; modern</span></label><label><input type="radio" name="font" value="Elegant &amp; editorial (serif)"><span class="pill">Elegant &amp; editorial</span></label><label><input type="radio" name="font" value="Strong &amp; bold (display)"><span class="pill">Strong &amp; bold</span></label><label><input type="radio" name="font" value="Technical &amp; precise"><span class="pill">Technical</span></label><label><input type="radio" name="font" value="Friendly &amp; rounded"><span class="pill">Friendly &amp; rounded</span></label></div></div><div class="field"><label>Reference website <span style="font-size:12px;color:var(--muted)">(optional)</span></label><input type="url" id="f-ref" placeholder="https://example.com — a site you like the look of"/></div>'
     },
     {
-      title: 'Services & contact',
-      sub: 'Tell us what you offer, then your contact details.',
-      html: '<div class="field"><label>List your services or products <span class="req">*</span></label><textarea id="f-services" placeholder="e.g.&#10;1. Steel fabrication — custom structural components&#10;2. Industrial assembly — on-site machinery installation&#10;3. Maintenance — scheduled and emergency repairs" style="min-height:110px"></textarea></div><div class="field"><label>Do you have a logo?</label><div class="pill-group"><label><input type="radio" name="logo" value="Yes — ready to send"><span class="pill">Yes, ready</span></label><label><input type="radio" name="logo" value="Yes but needs update"><span class="pill">Needs update</span></label><label><input type="radio" name="logo" value="No logo yet"><span class="pill">No logo yet</span></label></div></div><div class="field"><label>Texts and photos ready?</label><div class="pill-group"><label><input type="radio" name="content" value="Yes — all ready"><span class="pill">Yes, all ready</span></label><label><input type="radio" name="content" value="Partial — need some help"><span class="pill">Partial</span></label><label><input type="radio" name="content" value="No — need everything"><span class="pill">Need help</span></label></div></div><div class="field"><label>Do you have an existing website?</label><div class="pill-group"><label><input type="radio" name="existing" value="No — brand new"><span class="pill">No website yet</span></label><label><input type="radio" name="existing" value="Yes — needs redesign"><span class="pill">Yes, needs redesign</span></label><label><input type="radio" name="existing" value="Yes — just update content"><span class="pill">Yes, just update it</span></label></div></div><div class="row2"><div class="field"><label>Your email <span class="req">*</span></label><input type="email" id="f-email" placeholder="you@company.com"/></div><div class="field"><label>Phone number</label><input type="tel" id="f-phone" placeholder="+421 9xx xxx xxx"/></div></div><div class="field"><label>Anything else? <span style="font-size:12px;color:var(--muted)">(optional)</span></label><textarea id="f-notes" placeholder="e.g. hard deadline, specific requests..." style="min-height:60px"></textarea></div>'
+      title: 'Content & assets',
+      sub: 'What you already have and what we need to create.',
+      html: '<div class="field"><label>Languages needed</label><div class="pill-group"><label><input type="checkbox" name="lang" value="Slovak"><span class="pill">&#127480;&#127472; Slovak</span></label><label><input type="checkbox" name="lang" value="English"><span class="pill">&#127468;&#127463; English</span></label><label><input type="checkbox" name="lang" value="German"><span class="pill">&#127465;&#127466; German</span></label><label><input type="checkbox" name="lang" value="Czech"><span class="pill">&#127464;&#127487; Czech</span></label><label><input type="checkbox" name="lang" value="Hungarian"><span class="pill">&#127469;&#127482; Hungarian</span></label></div></div><div class="field"><label>Do you have a logo?</label><div class="pill-group"><label><input type="radio" name="logo" value="Yes — ready to send (SVG or PNG)"><span class="pill">&#9989; Yes, ready</span></label><label><input type="radio" name="logo" value="Yes — but low quality, needs update"><span class="pill">&#128260; Needs update</span></label><label><input type="radio" name="logo" value="No — need a new logo designed"><span class="pill">&#10060; No logo yet</span></label></div></div><div class="field"><label>Brand colors / guidelines?</label><div class="pill-group"><label><input type="radio" name="brand" value="Yes — I have brand guidelines"><span class="pill">Yes, I have guidelines</span></label><label><input type="radio" name="brand" value="Partial — I have colors but no guidelines"><span class="pill">Colors only</span></label><label><input type="radio" name="brand" value="No — start fresh"><span class="pill">Start fresh</span></label></div></div><div class="field"><label>Page texts (copy)</label><div class="pill-group"><label><input type="radio" name="copy" value="Yes — I will provide all texts"><span class="pill">I provide texts</span></label><label><input type="radio" name="copy" value="Partial — I have some, need help with rest"><span class="pill">Partial</span></label><label><input type="radio" name="copy" value="No — please write everything for me"><span class="pill">Write for me</span></label></div></div><div class="field"><label>Photos / images</label><div class="pill-group"><label><input type="radio" name="photos" value="Yes — I have professional photos"><span class="pill">Have photos</span></label><label><input type="radio" name="photos" value="Partial — some photos, not all"><span class="pill">Some photos</span></label><label><input type="radio" name="photos" value="No — use stock photography"><span class="pill">Use stock photos</span></label></div></div><div class="field"><label>Existing website?</label><div class="pill-group"><label><input type="radio" name="existing" value="No — brand new site"><span class="pill">No website yet</span></label><label><input type="radio" name="existing" value="Yes — full redesign needed"><span class="pill">Full redesign</span></label><label><input type="radio" name="existing" value="Yes — just refresh &amp; update content"><span class="pill">Refresh only</span></label></div></div>'
+    },
+    {
+      title: 'Contact details',
+      sub: 'How we reach you and your company address for the site footer.',
+      html: '<div class="row2"><div class="field"><label>Contact name <span class="req">*</span></label><input type="text" id="f-contact" placeholder="Your full name"/></div><div class="field"><label>Your email <span class="req">*</span></label><input type="email" id="f-email" placeholder="you@company.com"/></div></div><div class="row2"><div class="field"><label>Phone / WhatsApp <span class="req">*</span></label><input type="tel" id="f-phone" placeholder="+421 9xx xxx xxx"/></div><div class="field"><label>Preferred contact method</label><div class="pill-group" style="margin-top:6px"><label><input type="radio" name="contact_method" value="Email"><span class="pill">&#128231; Email</span></label><label><input type="radio" name="contact_method" value="WhatsApp"><span class="pill">&#128172; WhatsApp</span></label><label><input type="radio" name="contact_method" value="Phone call"><span class="pill">&#128222; Call</span></label></div></div></div><div class="field"><label>Company street address</label><input type="text" id="f-address" placeholder="e.g. Hlavná 12, 811 01 Bratislava"/></div><div class="field"><label>Company registration number <span style="font-size:12px;color:var(--muted)">(IČO / Handelsregister — for footer)</span></label><input type="text" id="f-ico" placeholder="e.g. IČO: 12 345 678"/></div><div class="field"><label>Desired launch date</label><div class="pill-group"><label><input type="radio" name="deadline" value="ASAP — within 1 week"><span class="pill">&#128293; ASAP</span></label><label><input type="radio" name="deadline" value="2–3 weeks"><span class="pill">2–3 weeks</span></label><label><input type="radio" name="deadline" value="1 month"><span class="pill">1 month</span></label><label><input type="radio" name="deadline" value="No hard deadline"><span class="pill">Flexible</span></label></div></div><div class="field"><label>How did you find us?</label><div class="pill-group"><label><input type="radio" name="source" value="WhatsApp"><span class="pill">WhatsApp</span></label><label><input type="radio" name="source" value="Instagram"><span class="pill">Instagram</span></label><label><input type="radio" name="source" value="Referral / word of mouth"><span class="pill">Referral</span></label><label><input type="radio" name="source" value="Google"><span class="pill">Google</span></label><label><input type="radio" name="source" value="LinkedIn"><span class="pill">LinkedIn</span></label><label><input type="radio" name="source" value="Other"><span class="pill">Other</span></label></div></div><div class="field"><label>Anything else we should know? <span style="font-size:12px;color:var(--muted)">(optional)</span></label><textarea id="f-notes" placeholder="Hard deadline, specific page requests, competitor sites to avoid looking like..." style="min-height:65px"></textarea></div>'
     }
   ];
 
@@ -355,15 +403,15 @@ textarea{resize:vertical;min-height:80px}
   }
 
   function saveAnswers() {
-    ['f-name','f-industry','f-desc','f-audience','f-email','f-phone','f-ref','f-colors','f-services','f-notes'].forEach(function(id) {
+    ['f-name','f-industry','f-desc','f-services','f-colors','f-ref','f-contact','f-email','f-phone','f-address','f-ico','f-notes'].forEach(function(id) {
       var el = document.getElementById(id);
       if (el) state.answers[id] = el.value;
     });
-    ['goal','logo','content','existing','font'].forEach(function(name) {
+    ['goal','font','colorscheme','logo','brand','copy','photos','existing','deadline','source','contact_method','size'].forEach(function(name) {
       var r = document.querySelector('input[name="' + name + '"]:checked');
       if (r) state.answers['r_' + name] = r.value;
     });
-    ['mkt','tone'].forEach(function(name) {
+    ['mkt','tone','visitor','lang'].forEach(function(name) {
       var checked = Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(function(c) { return c.value; });
       if (checked.length) state.answers['c_' + name] = checked;
     });
@@ -371,17 +419,17 @@ textarea{resize:vertical;min-height:80px}
 
   function restoreAnswers() {
     setTimeout(function() {
-      ['f-name','f-industry','f-desc','f-audience','f-email','f-phone','f-ref','f-colors','f-services','f-notes'].forEach(function(id) {
+      ['f-name','f-industry','f-desc','f-services','f-colors','f-ref','f-contact','f-email','f-phone','f-address','f-ico','f-notes'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el && state.answers[id]) el.value = state.answers[id];
       });
-      ['goal','logo','content','existing','font'].forEach(function(name) {
+      ['goal','font','colorscheme','logo','brand','copy','photos','existing','deadline','source','contact_method','size'].forEach(function(name) {
         if (state.answers['r_' + name]) {
           var r = document.querySelector('input[name="' + name + '"][value="' + state.answers['r_' + name] + '"]');
           if (r) r.checked = true;
         }
       });
-      ['mkt','tone'].forEach(function(name) {
+      ['mkt','tone','visitor','lang'].forEach(function(name) {
         if (state.answers['c_' + name]) {
           state.answers['c_' + name].forEach(function(v) {
             var c = document.querySelector('input[name="' + name + '"][value="' + v + '"]');
@@ -400,27 +448,79 @@ textarea{resize:vertical;min-height:80px}
     out += 'PACKAGE: ' + pkgLabel() + ' (\u20AC' + state.pkgPrice + ')\n';
     if (selAddons.length) out += 'ADD-ONS: ' + selAddons.join(', ') + '\n';
     out += 'TOTAL: \u20AC' + total + '\n\n';
-    out += '--- CLIENT ---\n';
-    out += 'Company: ' + (a['f-name'] || '\u2014') + '\n';
+
+    out += '--- COMPANY ---\n';
+    out += 'Name: ' + (a['f-name'] || '\u2014') + '\n';
     out += 'Industry: ' + (a['f-industry'] || '\u2014') + '\n';
+    out += 'Size: ' + (a['r_size'] || '\u2014') + '\n';
     out += 'Markets: ' + ((a['c_mkt'] || []).join(', ') || '\u2014') + '\n';
     out += 'Description: ' + (a['f-desc'] || '\u2014') + '\n';
-    out += 'Email: ' + (a['f-email'] || '\u2014') + '\n';
-    if (a['f-phone']) out += 'Phone: ' + a['f-phone'] + '\n';
-    out += '\n--- SERVICES / PRODUCTS ---\n';
-    out += (a['f-services'] || '\u2014') + '\n';
-    out += '\n--- DESIGN ---\n';
-    out += 'Goal: ' + (a['r_goal'] || '\u2014') + '\n';
-    out += 'Target visitor: ' + (a['f-audience'] || '\u2014') + '\n';
+    out += 'Address: ' + (a['f-address'] || '\u2014') + '\n';
+    out += 'Registration: ' + (a['f-ico'] || '\u2014') + '\n\n';
+
+    out += '--- SERVICES / PRODUCTS ---\n';
+    out += (a['f-services'] || '\u2014') + '\n\n';
+
+    out += '--- WEBSITE GOAL ---\n';
+    out += 'Primary goal: ' + (a['r_goal'] || '\u2014') + '\n';
+    out += 'Target visitors: ' + ((a['c_visitor'] || []).join(', ') || '\u2014') + '\n\n';
+
+    out += '--- DESIGN ---\n';
     out += 'Feel: ' + ((a['c_tone'] || []).join(', ') || '\u2014') + '\n';
-    if (a['f-colors']) out += 'Colors: ' + a['f-colors'] + '\n';
-    if (a['r_font']) out += 'Font vibe: ' + a['r_font'] + '\n';
-    if (a['f-ref']) out += 'Reference site: ' + a['f-ref'] + '\n';
-    out += '\n--- CONTENT ---\n';
+    out += 'Colour scheme: ' + (a['r_colorscheme'] || '\u2014') + '\n';
+    out += 'Preferred colors: ' + (a['f-colors'] || '\u2014') + '\n';
+    out += 'Font style: ' + (a['r_font'] || '\u2014') + '\n';
+    if (a['f-ref']) out += 'Reference website: ' + a['f-ref'] + ' \u2014 use this for design inspiration\n';
+    out += '\n';
+
+    out += '--- CONTENT & ASSETS ---\n';
+    out += 'Languages: ' + ((a['c_lang'] || []).join(', ') || '\u2014') + '\n';
     out += 'Logo: ' + (a['r_logo'] || '\u2014') + '\n';
-    out += 'Content ready: ' + (a['r_content'] || '\u2014') + '\n';
-    out += 'Existing website: ' + (a['r_existing'] || '\u2014') + '\n';
+    out += 'Brand guidelines: ' + (a['r_brand'] || '\u2014') + '\n';
+    out += 'Page texts: ' + (a['r_copy'] || '\u2014') + '\n';
+    out += 'Photos: ' + (a['r_photos'] || '\u2014') + '\n';
+    out += 'Existing website: ' + (a['r_existing'] || '\u2014') + '\n\n';
+
+    out += '--- CONTACT ---\n';
+    out += 'Name: ' + (a['f-contact'] || '\u2014') + '\n';
+    out += 'Email: ' + (a['f-email'] || '\u2014') + '\n';
+    out += 'Phone / WhatsApp: ' + (a['f-phone'] || '\u2014') + '\n';
+    out += 'Preferred contact: ' + (a['r_contact_method'] || '\u2014') + '\n';
+    out += 'Deadline: ' + (a['r_deadline'] || '\u2014') + '\n';
+    out += 'Found us via: ' + (a['r_source'] || '\u2014') + '\n';
     if (a['f-notes']) out += 'Notes: ' + a['f-notes'] + '\n';
+
+    out += '\n=== BUILD INSTRUCTIONS FOR CLAUDE ===\n\n';
+    var pages = 'Single scrollable page: Hero \u2192 Services \u2192 Portfolio \u2192 About \u2192 Contact';
+    if (state.pkg === 'standard') pages = '3 pages: Home (hero + about teaser), Services (with portfolio), Contact (Google Maps + team)';
+    if (state.pkg === 'premium') pages = '6 pages: Home, About, Services, Projects, Team, Contact + Blog + Careers';
+    out += 'Pages: ' + pages + '\n';
+    var langs = (a['c_lang'] || []);
+    if (!langs.length) langs = ['English'];
+    out += 'Languages: ' + langs.join(', ') + '\n';
+    out += '\nFeatures to include:\n';
+    out += '- Fully mobile responsive (320px, 768px, 1200px)\n';
+    out += '- Sticky navigation with smooth scroll\n';
+    out += '- Hero section with strong headline and CTA button\n';
+    out += '- Services section using the services listed above\n';
+    out += '- Contact form\n';
+    out += '- WhatsApp floating button linking to: ' + (a['f-phone'] || 'client phone') + '\n';
+    out += '- GDPR cookie consent banner\n';
+    out += '- Footer with: company name, address (' + (a['f-address'] || 'address TBC') + '), phone, email, registration number (' + (a['f-ico'] || 'TBC') + '), legal links\n';
+    if (state.pkg === 'standard' || state.pkg === 'premium') out += '- Google Maps embed for address\n';
+    if (state.pkg === 'premium') out += '- Blog/News section with 3 sample posts\n- Job application form\n';
+    if (state.addons['booking']) out += '- Calendly booking embed\n';
+    if (state.addons['seo']) out += '- Full SEO: meta tags, Open Graph, sitemap, canonical tags\n';
+    if (state.addons['copywriting']) out += '- Professional copywriting on all pages\n';
+    out += '\nDesign instructions:\n';
+    out += '- Style: ' + ((a['c_tone'] || []).join(', ') || 'professional and clean') + '\n';
+    out += '- Colour scheme: ' + (a['r_colorscheme'] || 'light') + '\n';
+    if (a['f-colors']) out += '- Exact colors: ' + a['f-colors'] + '\n';
+    if (a['r_font']) out += '- Typography: ' + a['r_font'] + ' — choose matching Google Fonts\n';
+    if (a['f-ref']) out += '- Design inspiration: ' + a['f-ref'] + '\n';
+    out += '- Unsplash placeholder images relevant to: ' + (a['f-industry'] || 'business') + '\n';
+    out += '- Write realistic placeholder content using the company description and services above\n';
+    out += '\nOutput: One complete self-contained HTML file. All CSS and JS inline. No external dependencies except Google Fonts and Unsplash images.\n';
     return out;
   }
 
