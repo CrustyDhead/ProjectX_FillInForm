@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MedVita Clinic — Private Healthcare</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#004166;--teal:#00848A;--bg:#F8FAFC;--card:#fff;--text:#1A2332;--muted:#64748B;--border:#E2E8F0;--r:10px;--rlg:16px}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+
+/* UTIL BAR */
+.util-bar{background:var(--navy);padding:.4rem 2rem;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.7)}
+.util-bar a{color:rgba(255,255,255,.7)}
+.util-bar a:hover{color:#fff}
+.lang-switch{display:flex;gap:6px}
+.lang-btn{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Nunito Sans',sans-serif;transition:all .15s}
+.lang-btn.active{background:#fff;color:var(--navy);border-color:#fff}
+.lang-btn:hover:not(.active){border-color:#fff;color:#fff}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid var(--border);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:36px;height:36px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.logo-text .name{font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:var(--navy)}
+.logo-text .tagline{font-size:11px;color:var(--muted)}
+.nav-links{display:flex;gap:2rem;font-size:14px;font-weight:600;color:var(--muted)}
+.nav-links a:hover,.nav-links a.active{color:var(--navy)}
+.nav-cta{background:var(--teal);color:#fff;padding:9px 20px;border-radius:var(--r);font-size:14px;font-weight:700;transition:opacity .15s}
+.nav-cta:hover{opacity:.88}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME PAGE ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;min-height:86vh;align-items:stretch}
+.hero-left{padding:4rem 3rem 4rem 2rem;display:flex;flex-direction:column;justify-content:center;max-width:600px;margin-left:auto}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:#E6F7F7;color:var(--teal);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:1.25rem}
+.hero-left h1{font-family:'Merriweather',serif;font-size:clamp(28px,3.5vw,42px);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:1rem}
+.hero-left p{font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:1.75rem}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:2rem}
+.btn-main{background:var(--teal);color:#fff;padding:12px 24px;border-radius:var(--r);font-size:14px;font-weight:700;transition:all .15s}
+.btn-main:hover{opacity:.88;transform:translateY(-1px)}
+.btn-sec{background:transparent;color:var(--navy);padding:12px 24px;border-radius:var(--r);font-size:14px;font-weight:600;border:1.5px solid var(--border);transition:all .15s}
+.btn-sec:hover{border-color:var(--navy)}
+.avail-card{background:#fff;border:1px solid var(--border);border-radius:var(--rlg);padding:1rem 1.25rem;display:inline-flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.avail-dot{width:10px;height:10px;background:#10B981;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 3px rgba(16,185,129,.2)}
+.avail-text .top{font-size:13px;font-weight:700;color:var(--text)}
+.avail-text .bot{font-size:11px;color:var(--muted)}
+.hero-right{position:relative;overflow:hidden}
+.hero-right img{width:100%;height:100%;object-fit:cover}
+.rating-badge{position:absolute;top:2rem;right:2rem;background:#fff;border-radius:var(--rlg);padding:.75rem 1rem;box-shadow:0 4px 20px rgba(0,0,0,.12);text-align:center}
+.rating-num{font-size:22px;font-weight:700;color:var(--navy)}
+.rating-stars{color:#F59E0B;font-size:14px;margin:.1rem 0}
+.rating-label{font-size:11px;color:var(--muted)}
+
+.trust-ribbon{background:var(--navy);padding:1rem 2rem;display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.85)}
+.trust-item span{font-size:18px}
+
+.svc-section{padding:5rem 2rem;background:#fff}
+.svc-wrap{max-width:1100px;margin:0 auto}
+.sec-tag{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
+.sec-h{font-family:'Merriweather',serif;font-size:clamp(24px,3vw,34px);font-weight:700;color:var(--navy);margin-bottom:.75rem}
+.sec-sub{font-size:15px;color:var(--muted);max-width:500px;line-height:1.7;margin-bottom:2.5rem}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.svc-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--rlg);padding:1.4rem;transition:all .2s;cursor:pointer}
+.svc-card:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(0,132,138,.1);transform:translateY(-2px)}
+.svc-ico{font-size:26px;margin-bottom:.75rem}
+.svc-card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.svc-card p{font-size:13px;color:var(--muted);line-height:1.55}
+
+/* ── SERVICES PAGE ── */
+.page-hero{background:var(--navy);padding:4rem 2rem;text-align:center}
+.page-hero h1{font-family:'Merriweather',serif;font-size:clamp(28px,4vw,40px);font-weight:700;color:#fff;margin-bottom:.75rem}
+.page-hero p{font-size:16px;color:rgba(255,255,255,.7);max-width:520px;margin:0 auto;line-height:1.7}
+.services-full{padding:4rem 2rem;background:#fff}
+.sf-wrap{max-width:1100px;margin:0 auto}
+.svc-big-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.svc-big{background:var(--bg);border:1px solid var(--border);border-radius:var(--rlg);padding:2rem;display:flex;gap:1.25rem;align-items:flex-start;transition:all .2s}
+.svc-big:hover{border-color:var(--teal);box-shadow:0 4px 16px rgba(0,132,138,.08)}
+.svc-big-ico{width:48px;height:48px;background:linear-gradient(135deg,var(--navy),var(--teal));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.svc-big h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:.5rem}
+.svc-big p{font-size:14px;color:var(--muted);line-height:1.65}
+.price-tag{display:inline-block;background:#E6F7F7;color:var(--teal);font-size:12px;font-weight:700;padding:3px 10px;border-radius:5px;margin-top:.6rem}
+
+.team-section{padding:4rem 2rem;background:var(--bg)}
+.team-wrap{max-width:1100px;margin:0 auto}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:2rem}
+.doctor-card{background:#fff;border:1px solid var(--border);border-radius:var(--rlg);overflow:hidden;transition:all .2s}
+.doctor-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
+.doctor-photo{aspect-ratio:1;overflow:hidden}
+.doctor-photo img{width:100%;height:100%;object-fit:cover}
+.doctor-info{padding:1rem}
+.doctor-name{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.doctor-spec{font-size:12px;color:var(--teal);font-weight:600;margin-bottom:.4rem}
+.doctor-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+.map-section{padding:4rem 2rem;background:#fff}
+.map-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:3rem;align-items:start}
+.map-info h2{font-family:'Merriweather',serif;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:1rem}
+.map-items{display:flex;flex-direction:column;gap:1rem}
+.map-item{display:flex;gap:12px}
+.map-item-ico{width:38px;height:38px;background:#E6F7F7;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.map-item-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.map-item-val{font-size:14px;font-weight:600;color:var(--text)}
+.map-embed{border-radius:var(--rlg);overflow:hidden;background:var(--bg);border:1px solid var(--border);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px}
+
+/* ── CONTACT PAGE ── */
+.contact-page{padding:4rem 2rem;background:var(--bg)}
+.cp-wrap{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;align-items:start}
+.booking-card{background:#fff;border:1px solid var(--border);border-radius:var(--rlg);padding:2rem;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.booking-card h2{font-family:'Merriweather',serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:.4rem}
+.booking-card p{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6}
+.bf{margin-bottom:.9rem}
+.bf label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em}
+.bf input,.bf select,.bf textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 12px;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border .15s}
+.bf input:focus,.bf select:focus,.bf textarea:focus{border-color:var(--teal)}
+.bf textarea{resize:vertical;min-height:80px}
+.bf select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.consent{display:flex;gap:8px;align-items:flex-start;margin:.75rem 0;font-size:12px;color:var(--muted);line-height:1.5}
+.consent input{width:auto;margin-top:2px;flex-shrink:0}
+.bsubmit{width:100%;background:var(--teal);color:#fff;border:none;padding:12px;border-radius:var(--r);font-size:14px;font-weight:700;font-family:'Nunito Sans',sans-serif;cursor:pointer;transition:opacity .15s}
+.bsubmit:hover{opacity:.88}
+
+footer{background:var(--navy);padding:2rem;text-align:center;font-size:13px;color:rgba(255,255,255,.5);display:flex;flex-direction:column;align-items:center;gap:.5rem}
+footer a{color:rgba(255,255,255,.5)}footer a:hover{color:#fff}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center}
+
+.wa{position:fixed;bottom:1.5rem;right:1.5rem;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 16px rgba(37,211,102,.4);z-index:99;transition:transform .2s}
+.wa:hover{transform:scale(1.08)}
+.cookie{position:fixed;bottom:1rem;left:1rem;right:1rem;max-width:500px;background:#fff;border:1px solid var(--border);border-radius:13px;padding:.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:200;font-size:13px;color:var(--muted);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.ck-btns{display:flex;gap:7px;flex-shrink:0}
+.ck-y{background:var(--teal);color:#fff;border:none;padding:6px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer}
+.ck-n{background:transparent;color:var(--muted);border:1px solid var(--border);padding:6px 12px;border-radius:7px;font-size:12px;cursor:pointer}
+
+/* i18n */
+[data-en],[data-sk],[data-de]{transition:opacity .15s}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .svc-big-grid,.map-wrap,.cp-wrap{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="util-bar">
+  <span>📞 +421 2 555 123 45 &nbsp;|&nbsp; ✉️ info@medvita.sk</span>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('sk')">SK</button>
+    <button class="lang-btn" onclick="setLang('de')">DE</button>
+  </div>
+</div>
+
+<nav>
+  <div class="logo">
+    <div class="logo-icon">🏥</div>
+    <div class="logo-text"><div class="name">MedVita</div><div class="tagline" data-en="Private Clinic" data-sk="Súkromná Klinika" data-de="Privatklinik">Private Clinic</div></div>
+  </div>
+  <div class="nav-links">
+    <a href="#" onclick="showPage('home')" class="active" id="nl-home" data-en="Home" data-sk="Domov" data-de="Start">Home</a>
+    <a href="#" onclick="showPage('services')" id="nl-services" data-en="Services" data-sk="Služby" data-de="Leistungen">Services</a>
+    <a href="#" onclick="showPage('contact')" id="nl-contact" data-en="Contact" data-sk="Kontakt" data-de="Kontakt">Contact</a>
+  </div>
+  <a href="#" onclick="showPage('contact')" class="nav-cta" data-en="Book Appointment" data-sk="Rezervovať" data-de="Termin buchen">Book Appointment</a>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">⚕️ <span data-en="Private Healthcare Bratislava" data-sk="Súkromná zdravotná starostlivosť" data-de="Private Gesundheitsversorgung">Private Healthcare Bratislava</span></div>
+      <h1 data-en="Your health,<br>our priority." data-sk="Vaše zdravie,<br>naša priorita." data-de="Ihre Gesundheit,<br>unsere Priorität.">Your health,<br>our priority.</h1>
+      <p data-en="Expert private medical care in Bratislava. Fast appointments, personalised treatment, no waiting queues." data-sk="Odborná súkromná zdravotná starostlivosť v Bratislave. Rýchle termíny, osobný prístup, žiadne čakacie rady." data-de="Expertmedizinische Privatversorgung in Bratislava. Schnelle Termine, persönliche Behandlung, keine Wartezeiten.">Expert private medical care in Bratislava. Fast appointments, personalised treatment, no waiting queues.</p>
+      <div class="hero-btns">
+        <a href="#" onclick="showPage('contact')" class="btn-main" data-en="Book Appointment" data-sk="Rezervovať termín" data-de="Termin buchen">Book Appointment</a>
+        <a href="#" onclick="showPage('services')" class="btn-sec" data-en="Our Services" data-sk="Naše služby" data-de="Unsere Leistungen">Our Services</a>
+      </div>
+      <div class="avail-card">
+        <div class="avail-dot"></div>
+        <div class="avail-text">
+          <div class="top" data-en="Available today" data-sk="Dostupné dnes" data-de="Heute verfügbar">Available today</div>
+          <div class="bot" data-en="Next slot: 14:30" data-sk="Ďalší termín: 14:30" data-de="Nächster Termin: 14:30">Next slot: 14:30</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=900&q=80" alt=""/>
+      <div class="rating-badge">
+        <div class="rating-num">4.9</div>
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-label">480+ reviews</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-ribbon">
+    <div class="trust-item"><span>🏅</span> <span data-en="ISO Certified" data-sk="ISO Certifikát" data-de="ISO Zertifiziert">ISO Certified</span></div>
+    <div class="trust-item"><span>🩺</span> <span data-en="12 Specialists" data-sk="12 Špecialistov" data-de="12 Spezialisten">12 Specialists</span></div>
+    <div class="trust-item"><span>⚡</span> <span data-en="Same-day Results" data-sk="Výsledky v deň" data-de="Ergebnisse am selben Tag">Same-day Results</span></div>
+    <div class="trust-item"><span>🇸🇰🇩🇪🇬🇧</span> <span data-en="3 Languages" data-sk="3 Jazyky" data-de="3 Sprachen">3 Languages</span></div>
+  </div>
+
+  <div class="svc-section">
+    <div class="svc-wrap">
+      <div class="sec-tag" data-en="What We Offer" data-sk="Čo ponúkame" data-de="Unser Angebot">What We Offer</div>
+      <h2 class="sec-h" data-en="Our Specialisations" data-sk="Naše špecializácie" data-de="Unsere Fachgebiete">Our Specialisations</h2>
+      <p class="sec-sub" data-en="Comprehensive private care across key medical disciplines." data-sk="Komplexná súkromná starostlivosť v kľúčových medicínskych odboroch." data-de="Umfassende Privatversorgung in wichtigen medizinischen Fachbereichen.">Comprehensive private care across key medical disciplines.</p>
+      <div class="svc-grid">
+        <div class="svc-card"><div class="svc-ico">🦷</div><h3 data-en="Dentistry" data-sk="Zubné lekárstvo" data-de="Zahnmedizin">Dentistry</h3><p data-en="Full dental care, implants, whitening and orthodontics." data-sk="Kompletná zubná starostlivosť, implantáty, bielenie a ortodontia." data-de="Vollständige Zahnversorgung, Implantate, Bleaching.">Full dental care, implants, whitening and orthodontics.</p></div>
+        <div class="svc-card"><div class="svc-ico">🫀</div><h3 data-en="Cardiology" data-sk="Kardiológia" data-de="Kardiologie">Cardiology</h3><p data-en="Heart health checks, ECG, stress tests and consultations." data-sk="Kontroly srdca, EKG, záťažové testy a konzultácie." data-de="Herzgesundheitschecks, EKG, Stresstests.">Heart health checks, ECG, stress tests and consultations.</p></div>
+        <div class="svc-card"><div class="svc-ico">🧴</div><h3 data-en="Dermatology" data-sk="Dermatológia" data-de="Dermatologie">Dermatology</h3><p data-en="Skin conditions, mole checks, laser treatments and aesthetic care." data-sk="Kožné ochorenia, kontroly materských znamienok, laserové ošetrenia." data-de="Hauterkrankungen, Muttermalkontrollen, Laserbehandlungen.">Skin conditions, mole checks, laser treatments.</p></div>
+        <div class="svc-card"><div class="svc-ico">🧠</div><h3 data-en="Psychology" data-sk="Psychológia" data-de="Psychologie">Psychology</h3><p data-en="Mental health support, therapy sessions, anxiety and stress management." data-sk="Podpora duševného zdravia, terapeutické sedenia, zvládanie stresu." data-de="Psychische Gesundheitsunterstützung, Therapiesitzungen.">Mental health support, therapy and stress management.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES PAGE -->
+<div class="page" id="page-services">
+  <div class="page-hero">
+    <div class="sec-tag" style="color:rgba(255,255,255,.6)" data-en="What We Offer" data-sk="Čo ponúkame" data-de="Unser Angebot">What We Offer</div>
+    <h1 data-en="Our Medical Services" data-sk="Naše medicínske služby" data-de="Unsere medizinischen Leistungen">Our Medical Services</h1>
+    <p data-en="Private, fast, and personalised healthcare from certified specialists." data-sk="Súkromná, rýchla a personalizovaná zdravotná starostlivosť od certifikovaných špecialistov." data-de="Private, schnelle und personalisierte Gesundheitsversorgung von zertifizierten Spezialisten.">Private, fast, and personalised healthcare from certified specialists.</p>
+  </div>
+  <div class="services-full">
+    <div class="sf-wrap">
+      <div class="svc-big-grid">
+        <div class="svc-big"><div class="svc-big-ico">🦷</div><div><h3 data-en="Dentistry" data-sk="Zubné lekárstvo" data-de="Zahnmedizin">Dentistry</h3><p data-en="Complete dental care from routine check-ups to complex implants. We use the latest equipment for painless procedures." data-sk="Kompletná zubná starostlivosť od bežných prehliadok po komplexné implantáty. Používame najnovšie vybavenie." data-de="Vollständige Zahnversorgung von Routineuntersuchungen bis zu komplexen Implantaten.">Complete dental care from routine check-ups to complex implants. Latest equipment for painless procedures.</p><span class="price-tag" data-en="From €45 / visit" data-sk="Od €45 / návšteva" data-de="Ab €45 / Besuch">From €45 / visit</span></div></div>
+        <div class="svc-big"><div class="svc-big-ico">🫀</div><div><h3 data-en="Cardiology" data-sk="Kardiológia" data-de="Kardiologie">Cardiology</h3><p data-en="Comprehensive heart health assessments including ECG, echocardiography, and specialist consultations with same-day results." data-sk="Komplexné kardiologické vyšetrenia vrátane EKG, echokardiografie a konzultácií s výsledkami v ten istý deň." data-de="Umfassende Herzuntersuchungen einschließlich EKG, Echokardiographie und Fachkonsultationen.">Comprehensive heart health including ECG, echocardiography, and specialist consultations with same-day results.</p><span class="price-tag" data-en="From €65 / visit" data-sk="Od €65 / návšteva" data-de="Ab €65 / Besuch">From €65 / visit</span></div></div>
+        <div class="svc-big"><div class="svc-big-ico">🧴</div><div><h3 data-en="Dermatology" data-sk="Dermatológia" data-de="Dermatologie">Dermatology</h3><p data-en="From mole mapping and skin cancer screening to aesthetic laser treatments and chronic skin condition management." data-sk="Od mapovania znamienok a skríningu rakoviny kože po estetické laserové ošetrenia." data-de="Von der Muttermalkartierung bis zu ästhetischen Laserbehandlungen und chronischen Hauterkrankungen.">From mole mapping to laser treatments and chronic skin condition management.</p><span class="price-tag" data-en="From €55 / visit" data-sk="Od €55 / návšteva" data-de="Ab €55 / Besuch">From €55 / visit</span></div></div>
+        <div class="svc-big"><div class="svc-big-ico">🧠</div><div><h3 data-en="Psychology" data-sk="Psychológia" data-de="Psychologie">Psychology</h3><p data-en="Individual therapy sessions for anxiety, depression, burnout and relationship issues. Online sessions available." data-sk="Individuálne terapeutické sedenia pre úzkosť, depresiu, vyhorenie a vzťahové problémy. Dostupné online sedenia." data-de="Einzeltherapiesitzungen für Angstzustände, Depressionen, Burnout. Online-Sitzungen verfügbar.">Individual therapy for anxiety, depression and burnout. Online sessions available.</p><span class="price-tag" data-en="From €70 / session" data-sk="Od €70 / sedenie" data-de="Ab €70 / Sitzung">From €70 / session</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="team-section">
+    <div class="team-wrap">
+      <div class="sec-tag" data-en="Our Team" data-sk="Náš tím" data-de="Unser Team">Our Team</div>
+      <h2 class="sec-h" data-en="Meet Our Specialists" data-sk="Spoznajte našich špecialistov" data-de="Lernen Sie unsere Spezialisten kennen">Meet Our Specialists</h2>
+      <div class="team-grid">
+        <div class="doctor-card"><div class="doctor-photo"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80" alt=""/></div><div class="doctor-info"><div class="doctor-name">MUDr. Jana Kováčová</div><div class="doctor-spec" data-en="Dentistry" data-sk="Zubné lekárstvo" data-de="Zahnmedizin">Dentistry</div><div class="doctor-desc" data-en="15 years experience, implant specialist." data-sk="15 rokov skúseností, špecialistka na implantáty." data-de="15 Jahre Erfahrung, Implantatspezialistin.">15 years experience, implant specialist.</div></div></div>
+        <div class="doctor-card"><div class="doctor-photo"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80" alt=""/></div><div class="doctor-info"><div class="doctor-name">MUDr. Peter Novák</div><div class="doctor-spec" data-en="Cardiology" data-sk="Kardiológia" data-de="Kardiologie">Cardiology</div><div class="doctor-desc" data-en="Heart specialist, 12 years clinical practice." data-sk="Kardiológ, 12 rokov klinickej praxe." data-de="Herzspezialist, 12 Jahre klinische Praxis.">Heart specialist, 12 years clinical practice.</div></div></div>
+        <div class="doctor-card"><div class="doctor-photo"><img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=400&q=80" alt=""/></div><div class="doctor-info"><div class="doctor-name">MUDr. Lucia Horváth</div><div class="doctor-spec" data-en="Dermatology" data-sk="Dermatológia" data-de="Dermatologie">Dermatology</div><div class="doctor-desc" data-en="Skin & laser specialist, 10 years experience." data-sk="Špecialistka na kožu a laser, 10 rokov skúseností." data-de="Haut- und Laserspezialistin, 10 Jahre Erfahrung.">Skin & laser specialist, 10 years experience.</div></div></div>
+        <div class="doctor-card"><div class="doctor-photo"><img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=400&q=80" alt=""/></div><div class="doctor-info"><div class="doctor-name">PhDr. Martin Szabó</div><div class="doctor-spec" data-en="Psychology" data-sk="Psychológia" data-de="Psychologie">Psychology</div><div class="doctor-desc" data-en="CBT therapist, anxiety & burnout specialist." data-sk="KBT terapeut, špecialista na úzkosť a vyhorenie." data-de="KVT-Therapeut, Angst- und Burnout-Spezialist.">CBT therapist, anxiety & burnout specialist.</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="map-section">
+    <div class="map-wrap">
+      <div class="map-info">
+        <h2 data-en="Find Us" data-sk="Nájdite nás" data-de="Finden Sie uns">Find Us</h2>
+        <div class="map-items">
+          <div class="map-item"><div class="map-item-ico">📍</div><div><div class="map-item-lbl" data-en="Address" data-sk="Adresa" data-de="Adresse">Address</div><div class="map-item-val">Zámocká 14, 811 01 Bratislava</div></div></div>
+          <div class="map-item"><div class="map-item-ico">🕐</div><div><div class="map-item-lbl" data-en="Hours" data-sk="Hodiny" data-de="Öffnungszeiten">Hours</div><div class="map-item-val" data-en="Mon–Fri 8:00–18:00" data-sk="Po–Pi 8:00–18:00" data-de="Mo–Fr 8:00–18:00">Mon–Fri 8:00–18:00</div></div></div>
+          <div class="map-item"><div class="map-item-ico">🅿️</div><div><div class="map-item-lbl" data-en="Parking" data-sk="Parkovanie" data-de="Parkplatz">Parking</div><div class="map-item-val" data-en="Free parking available" data-sk="Bezplatné parkovanie" data-de="Kostenloser Parkplatz verfügbar">Free parking available</div></div></div>
+        </div>
+      </div>
+      <div class="map-embed">🗺️ &nbsp;<span data-en="Google Maps embed" data-sk="Google Maps vložka" data-de="Google Maps Einbettung">Google Maps embed</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <div class="sec-tag" style="color:rgba(255,255,255,.6)" data-en="Get in Touch" data-sk="Kontaktujte nás" data-de="Kontakt aufnehmen">Get in Touch</div>
+    <h1 data-en="Book an Appointment" data-sk="Rezervujte si termín" data-de="Termin vereinbaren">Book an Appointment</h1>
+    <p data-en="Fill in the form and we'll confirm your slot within 2 hours." data-sk="Vyplňte formulár a termín potvrdíme do 2 hodín." data-de="Füllen Sie das Formular aus und wir bestätigen Ihren Termin innerhalb von 2 Stunden.">Fill in the form and we'll confirm your slot within 2 hours.</p>
+  </div>
+  <div class="contact-page">
+    <div class="cp-wrap">
+      <div>
+        <div class="map-items" style="margin-bottom:2rem">
+          <div class="map-item"><div class="map-item-ico">📍</div><div><div class="map-item-lbl" data-en="Address" data-sk="Adresa" data-de="Adresse">Address</div><div class="map-item-val">Zámocká 14, 811 01 Bratislava</div></div></div>
+          <div class="map-item" style="margin-top:1rem"><div class="map-item-ico">📞</div><div><div class="map-item-lbl" data-en="Phone" data-sk="Telefón" data-de="Telefon">Phone</div><div class="map-item-val">+421 2 555 123 45</div></div></div>
+          <div class="map-item" style="margin-top:1rem"><div class="map-item-ico">✉️</div><div><div class="map-item-lbl">Email</div><div class="map-item-val">info@medvita.sk</div></div></div>
+        </div>
+        <div class="map-embed" style="aspect-ratio:1">🗺️</div>
+      </div>
+      <div class="booking-card">
+        <h2 data-en="Book Appointment" data-sk="Rezervovať termín" data-de="Termin buchen">Book Appointment</h2>
+        <p data-en="We confirm within 2 hours during working days." data-sk="Potvrdíme do 2 hodín počas pracovných dní." data-de="Wir bestätigen innerhalb von 2 Stunden an Werktagen.">We confirm within 2 hours during working days.</p>
+        <div class="bf"><label data-en="Full name" data-sk="Celé meno" data-de="Vollständiger Name">Full name</label><input type="text" placeholder="Jana Nováková"/></div>
+        <div class="bf"><label data-en="Email" data-sk="Email" data-de="E-Mail">Email</label><input type="email" placeholder="jana@email.sk"/></div>
+        <div class="bf"><label data-en="Phone" data-sk="Telefón" data-de="Telefon">Phone</label><input type="tel" placeholder="+421 9xx xxx xxx"/></div>
+        <div class="bf"><label data-en="Specialisation" data-sk="Špecializácia" data-de="Fachgebiet">Specialisation</label>
+          <select>
+            <option data-en="Select..." data-sk="Vybrať..." data-de="Auswählen...">Select...</option>
+            <option data-en="Dentistry" data-sk="Zubné lekárstvo" data-de="Zahnmedizin">Dentistry</option>
+            <option data-en="Cardiology" data-sk="Kardiológia" data-de="Kardiologie">Cardiology</option>
+            <option data-en="Dermatology" data-sk="Dermatológia" data-de="Dermatologie">Dermatology</option>
+            <option data-en="Psychology" data-sk="Psychológia" data-de="Psychologie">Psychology</option>
+          </select>
+        </div>
+        <div class="bf"><label data-en="Notes (optional)" data-sk="Poznámky (nepovinné)" data-de="Hinweise (optional)">Notes (optional)</label><textarea placeholder="..."></textarea></div>
+        <div class="consent"><input type="checkbox"/><span data-en="I agree to processing of my personal data for appointment purposes. Privacy Policy." data-sk="Súhlasím so spracovaním mojich osobných údajov na účely rezervácie. Ochrana osobných údajov." data-de="Ich stimme der Verarbeitung meiner personenbezogenen Daten zu. Datenschutz.">I agree to processing of my personal data for appointment purposes. Privacy Policy.</span></div>
+        <button class="bsubmit" data-en="Book Appointment" data-sk="Rezervovať termín" data-de="Termin buchen">Book Appointment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 MedVita s.r.o. | IČO: 12 345 678</span>
+  <div class="footer-links">
+    <a href="#" data-en="Privacy Policy" data-sk="Ochrana osobných údajov" data-de="Datenschutz">Privacy Policy</a>
+    <a href="#" data-en="Imprint" data-sk="Impressum" data-de="Impressum">Imprint</a>
+    <a href="#" data-en="GDPR" data-sk="GDPR" data-de="DSGVO">GDPR</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/421255512345" class="wa" target="_blank">💬</a>
+
+<div class="cookie" id="cookie">
+  <span data-en="We use cookies to improve your experience." data-sk="Používame cookies na zlepšenie vášho zážitku." data-de="Wir verwenden Cookies, um Ihr Erlebnis zu verbessern.">We use cookies to improve your experience.</span>
+  <div class="ck-btns">
+    <button class="ck-n" onclick="document.getElementById('cookie').style.display='none'" data-en="Decline" data-sk="Odmietnuť" data-de="Ablehnen">Decline</button>
+    <button class="ck-y" onclick="document.getElementById('cookie').style.display='none'" data-en="Accept" data-sk="Prijať" data-de="Akzeptieren">Accept</button>
+  </div>
+</div>
+
+<script>
+var lang = 'en';
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelector('.lang-btn:nth-child(' + (l==='en'?1:l==='sk'?2:3) + ')').classList.add('active');
+  document.querySelectorAll('[data-' + l + ']').forEach(function(el) {
+    var val = el.getAttribute('data-' + l);
+    if (val) el.innerHTML = val;
+  });
+}
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+  document.getElementById('nl-' + id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
