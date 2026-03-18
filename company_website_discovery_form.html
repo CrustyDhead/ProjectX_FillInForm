@@ -1,0 +1,226 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.wrap{max-width:780px;padding:2rem 0}
+.header{margin-bottom:2rem;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:1.5rem}
+.header h1{font-size:22px;font-weight:500;margin-bottom:6px}
+.header p{font-size:14px;color:var(--color-text-secondary);line-height:1.6}
+.section{margin-bottom:2rem}
+.section-title{font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:1rem;display:flex;align-items:center;gap:8px}
+.section-title span.num{width:22px;height:22px;border-radius:50%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--color-text-primary);font-weight:500}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:14px;font-weight:500;margin-bottom:5px;color:var(--color-text-primary)}
+.field .hint{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px;line-height:1.5}
+.field input,.field textarea,.field select{width:100%;font-family:var(--font-sans);font-size:14px;padding:8px 12px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);color:var(--color-text-primary);outline:none;transition:border 0.15s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--color-border-primary)}
+.field textarea{resize:vertical;min-height:80px;line-height:1.6}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.checkgroup{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.checkgroup label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:400;cursor:pointer;padding:7px 10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-secondary)}
+.checkgroup input[type=checkbox]{width:auto;padding:0;margin:0;accent-color:var(--color-text-info)}
+.radiogroup{display:flex;flex-wrap:wrap;gap:6px}
+.radiogroup label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:400;cursor:pointer;padding:6px 12px;border:0.5px solid var(--color-border-tertiary);border-radius:20px;background:var(--color-background-secondary)}
+.radiogroup input[type=radio]{width:auto;padding:0;margin:0;accent-color:var(--color-text-info)}
+.actions{display:flex;gap:10px;margin-top:2rem;padding-top:1.5rem;border-top:0.5px solid var(--color-border-tertiary)}
+.btn-copy{padding:9px 20px;font-size:14px;font-family:var(--font-sans);border-radius:var(--border-radius-md);cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btn-copy:hover{background:var(--color-background-secondary)}
+.btn-send{padding:9px 20px;font-size:14px;font-family:var(--font-sans);border-radius:var(--border-radius-md);cursor:pointer;background:var(--color-background-info);border:none;color:var(--color-text-info);font-weight:500}
+.btn-send:hover{opacity:0.85}
+.toast{display:none;margin-top:10px;font-size:13px;color:var(--color-text-success);padding:8px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-success);background:var(--color-background-success)}
+.required{color:var(--color-text-danger);margin-left:2px}
+</style>
+
+<div class="wrap">
+  <div class="header">
+    <h1>Website Project — Discovery Questionnaire</h1>
+    <p>Fill in what you can. Leave blanks where unsure — we'll discuss those together. Estimated time: 10–15 minutes.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">1</span> About the Company</div>
+    <div class="row-2">
+      <div class="field"><label>Company name <span class="required">*</span></label><input type="text" placeholder="e.g. Stahlmann Montage s.r.o." /></div>
+      <div class="field"><label>Industry / sector <span class="required">*</span></label><input type="text" placeholder="e.g. Industrial services, Healthcare, IT" /></div>
+    </div>
+    <div class="row-2">
+      <div class="field"><label>Country / markets served</label><input type="text" placeholder="e.g. Slovakia, Germany, Austria" /></div>
+      <div class="field"><label>Number of employees</label>
+        <select><option value="">Select range</option><option>1–10</option><option>11–50</option><option>51–200</option><option>200+</option></select>
+      </div>
+    </div>
+    <div class="field"><label>One sentence: what does your company do?</label><textarea placeholder="We provide X to Y clients in Z market..."></textarea></div>
+    <div class="field"><label>Do you currently have a website?</label>
+      <div class="radiogroup">
+        <label><input type="radio" name="existing" value="no"> No website</label>
+        <label><input type="radio" name="existing" value="old"> Yes, but it's outdated</label>
+        <label><input type="radio" name="existing" value="ok"> Yes, and it works fine</label>
+      </div>
+    </div>
+    <div class="field"><label>Current website URL (if any)</label><input type="text" placeholder="https://..." /></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">2</span> Goals & Purpose</div>
+    <div class="field"><label>What is the primary goal of this website? <span class="required">*</span></label>
+      <div class="radiogroup">
+        <label><input type="radio" name="goal" value="leads"> Get new client inquiries</label>
+        <label><input type="radio" name="goal" value="credibility"> Build trust / credibility</label>
+        <label><input type="radio" name="goal" value="recruit"> Recruit employees</label>
+        <label><input type="radio" name="goal" value="info"> Share information</label>
+        <label><input type="radio" name="goal" value="sales"> Sell products/services</label>
+        <label><input type="radio" name="goal" value="other"> Other</label>
+      </div>
+    </div>
+    <div class="field"><label>Who is the target audience? <span class="required">*</span></label><div class="hint">Who will visit the site — clients, partners, job seekers, investors?</div><textarea placeholder="e.g. B2B: procurement managers in German manufacturing companies + Slovak businesses looking for subcontractors"></textarea></div>
+    <div class="field"><label>What action should visitors take on the website?</label>
+      <div class="checkgroup">
+        <label><input type="checkbox"> Contact form submission</label>
+        <label><input type="checkbox"> Phone call</label>
+        <label><input type="checkbox"> WhatsApp / email</label>
+        <label><input type="checkbox"> Download brochure</label>
+        <label><input type="checkbox"> Apply for a job</label>
+        <label><input type="checkbox"> Book a meeting</label>
+      </div>
+    </div>
+    <div class="field"><label>What would "success" look like 6 months after launch?</label><textarea placeholder="e.g. 5 new client inquiries per month, workers see us as a professional company..."></textarea></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">3</span> Content & Pages</div>
+    <div class="field"><label>Which pages do you want? <span class="required">*</span></label>
+      <div class="checkgroup">
+        <label><input type="checkbox"> Home</label>
+        <label><input type="checkbox"> About us</label>
+        <label><input type="checkbox"> Services</label>
+        <label><input type="checkbox"> Projects / Portfolio</label>
+        <label><input type="checkbox"> Team / People</label>
+        <label><input type="checkbox"> Careers / Jobs</label>
+        <label><input type="checkbox"> Blog / News</label>
+        <label><input type="checkbox"> Contact</label>
+      </div>
+    </div>
+    <div class="field"><label>Languages needed</label>
+      <div class="checkgroup">
+        <label><input type="checkbox"> Slovak (SK)</label>
+        <label><input type="checkbox"> English (EN)</label>
+        <label><input type="checkbox"> German (DE)</label>
+        <label><input type="checkbox"> Czech (CZ)</label>
+      </div>
+    </div>
+    <div class="field"><label>Do you have content ready?</label>
+      <div class="radiogroup">
+        <label><input type="radio" name="content" value="yes"> Yes, we have texts and photos</label>
+        <label><input type="radio" name="content" value="partial"> Partial — some texts, no photos</label>
+        <label><input type="radio" name="content" value="no"> No — we need help creating it</label>
+      </div>
+    </div>
+    <div class="field"><label>Competitors or websites you like</label><div class="hint">Share 1–3 URLs — helps us understand the style and tone you're aiming for.</div><textarea placeholder="https://..."></textarea></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">4</span> Design & Brand</div>
+    <div class="field"><label>Do you have a brand identity?</label>
+      <div class="checkgroup">
+        <label><input type="checkbox"> Logo</label>
+        <label><input type="checkbox"> Brand colors</label>
+        <label><input type="checkbox"> Fonts</label>
+        <label><input type="checkbox"> Brand guidelines doc</label>
+      </div>
+    </div>
+    <div class="field"><label>Desired tone / feel</label>
+      <div class="checkgroup">
+        <label><input type="checkbox"> Professional / corporate</label>
+        <label><input type="checkbox"> Industrial / technical</label>
+        <label><input type="checkbox"> Modern / minimal</label>
+        <label><input type="checkbox"> Warm / approachable</label>
+        <label><input type="checkbox"> Bold / strong</label>
+        <label><input type="checkbox"> Clean / simple</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="num">5</span> Technical & Budget</div>
+    <div class="row-2">
+      <div class="field"><label>Budget range</label>
+        <select><option value="">Select range</option><option>Under €500</option><option>€500–€1,000</option><option>€1,000–€2,000</option><option>€2,000–€5,000</option><option>€5,000+</option><option>To be discussed</option></select>
+      </div>
+      <div class="field"><label>Desired launch date</label><input type="text" placeholder="e.g. End of April 2026" /></div>
+    </div>
+    <div class="field"><label>Who will update the website after launch?</label>
+      <div class="radiogroup">
+        <label><input type="radio" name="cms" value="agency"> The agency / developer</label>
+        <label><input type="radio" name="cms" value="us"> We will do it ourselves</label>
+        <label><input type="radio" name="cms" value="unsure"> Not sure yet</label>
+      </div>
+    </div>
+    <div class="field"><label>Do you need any of these features?</label>
+      <div class="checkgroup">
+        <label><input type="checkbox"> Online contact / inquiry form</label>
+        <label><input type="checkbox"> Job application form</label>
+        <label><input type="checkbox"> Live chat / WhatsApp button</label>
+        <label><input type="checkbox"> Google Maps integration</label>
+        <label><input type="checkbox"> Cookie consent (GDPR)</label>
+        <label><input type="checkbox"> Analytics (Google)</label>
+        <label><input type="checkbox"> CMS (editable content)</label>
+        <label><input type="checkbox"> Email newsletter</label>
+      </div>
+    </div>
+    <div class="field"><label>Any other requirements or questions?</label><textarea placeholder="Anything else we should know before we start..."></textarea></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-copy" onclick="copyText()">Copy as text</button>
+    <button class="btn-send" onclick="sendSummary()">Generate project brief ↗</button>
+  </div>
+  <div class="toast" id="toast">Copied to clipboard.</div>
+</div>
+
+<script>
+function getFormData(){
+  const sections={};
+  document.querySelectorAll('.section').forEach((sec,i)=>{
+    const title=sec.querySelector('.section-title').textContent.trim();
+    const fields=[];
+    sec.querySelectorAll('.field').forEach(f=>{
+      const label=f.querySelector('label')?.textContent.replace('*','').trim();
+      let val='';
+      const inp=f.querySelector('input[type=text],input[type=date],textarea,select');
+      if(inp) val=inp.value.trim();
+      const checked=[...f.querySelectorAll('input[type=checkbox]:checked')].map(c=>c.closest('label').textContent.trim());
+      const radio=f.querySelector('input[type=radio]:checked');
+      if(checked.length) val=checked.join(', ');
+      else if(radio) val=radio.closest('label').textContent.trim();
+      if(label) fields.push({label,val:val||'—'});
+    });
+    sections[title]=fields;
+  });
+  return sections;
+}
+
+function copyText(){
+  const data=getFormData();
+  let text='WEBSITE PROJECT — DISCOVERY QUESTIONNAIRE\n\n';
+  Object.entries(data).forEach(([sec,fields])=>{
+    text+=`${sec}\n${'─'.repeat(40)}\n`;
+    fields.forEach(f=>text+=`${f.label}:\n${f.val}\n\n`);
+  });
+  navigator.clipboard.writeText(text).then(()=>{
+    const t=document.getElementById('toast');
+    t.style.display='block';
+    setTimeout(()=>t.style.display='none',2500);
+  });
+}
+
+function sendSummary(){
+  const data=getFormData();
+  let summary='Here is the filled-in discovery questionnaire for the company website project. Please generate a structured project brief with: scope, recommended pages, estimated effort, and pricing.\n\n';
+  Object.entries(data).forEach(([sec,fields])=>{
+    summary+=`${sec}: `;
+    summary+=fields.map(f=>`${f.label}: ${f.val}`).join(' | ');
+    summary+='\n';
+  });
+  sendPrompt(summary);
+}
+</script>
